@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html xml:lang="en" lang="en">
+<head>
+  <title>CSE442 Assignment 2</title>
+  <style>
+* { padding: 0; margin: 0; }
+
+body {
+  margin: 0 auto 0 auto;
+  padding: 0;
+  background-color: #33333f;
+  width: 840px;
+  font-family: "Avenir", "Avenir Next", Helvetica Neue, Arial;
+  font-size: 0.95em;
+}
+
+a, a:visited { text-decoration: none; color: #7533f4; }
+a:hover { text-decoration: underline; color: #f4b014; }
+img, a.img, a:hover.img { border: none; }
+
+img {
+  max-width: 800px;
+}
+
+h1, h2, h3, h4, h5 {
+  color: #492a7c;
+  background-color: inherit;
+  font-weight: normal;
+  padding: 0 0 5px 0;
+  margin: 15px 0 0 0;
+  border: none;
+  clear: right;
+}
+h1 { font-size: 18pt; margin:  5px 0 10px 0; line-height: 28px; }
+h2 { font-size: 14pt; margin: 30px 0 15px 0; letter-spacing: 0.01em; border-bottom: 1px solid #ccc;  line-height: 20px;}
+h3 { font-size: 13pt; }
+h4 { font-size: 12pt; }
+h5 { font-size: 11pt; }
+p { margin: 0 0 10px 0; }
+hr { border: 0px; border-top: 1px solid #ccc; height: 0px; }
+ol { margin: 1em; }
+
+.content {
+  margin: 0;
+  padding: 15px 20px;
+  background-color: #ffffff;
+}
+
+.article {
+  line-height: 1.5em;
+}
+
+.entry  {
+  border-top: 1px solid #ddd;
+  padding-top: 2px;
+  margin-top: 3em;
+}
+  </style>
+</head>
+
+<body>
+<div class='content'>
+
+<section>
+  <h1>Assignment 2: Exploratory Data Analysis</h1>
+
+  <p>
+    <strong>Lane Aasen</strong> &mdash;
+    <em>aaasen@uw.edu</em>
+  </p>
+</section>
+
+<section>
+  <h2>Dataset</h2>
+
+  <p>
+    Northwest Avalanche Center (NWAC) Weather Data<br/>
+
+    The Northwest Avalanche Center provides avalanche forecasts, incident reports,
+    and weather analysis for the Pacific Northwest. Their daily avalanche forecasts
+    are an essential safety tool for backcountry skiers, snowshoers, and snowmobilers.
+    NWAC has published weather data for its 48 mountain weather stations since 2014.
+
+    One of the most tangible impacts of global warming in the Pacific Northwest will
+    be warmer winters with less snow. Our mountains lie in a coastal climate, and the
+    difference between rain and snow is often just a few degrees.
+    The historically warm and wet winter of 2014-2015 gave us a preview of what winters
+    could look like in the future. Ski resorts stuggled to open and a lack of snowpack
+    created water shortages in the summer.
+  </p>
+
+  <p>
+    The data is available online at:
+    <strong>
+      <a href="http://www.nwac.us/data-portal/">http://www.nwac.us/data-portal/</a>
+    </strong>
+    <br/>
+
+    The NWAC data portal provides CSV files by station and year. I have published a
+    script to download all of the files and combine them into a single CSV that is
+    available on GitHub <a href="https://github.com/aaasen/nwac">here</a>.
+  </p>
+</section>
+
+<section>
+  <h2>Initial Analysis Questions</h2>
+  <ol>
+    <li>QUESTION_1</li>
+    <li>QUESTION_2</li>
+    <li>QUESTION_3</li>
+    <li>...</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Discoveries &amp; Insights</h2>
+
+  <div class="entry">
+    <img src="images/number-of-records-by-day.png" />
+    <p class="caption">
+        From this chart we can see that data is available starting in October 2014.
+        For some reason, there is a spike in October 2014 followed by a trough in November.
+        As the winter of 2014-2015 progresses, more data becomes available. I suspect that
+        this has something to do with the initial setup of the system.
+
+        We can also see that some weather stations are shut off during the summer.
+
+        There is also a lack of data for August 31, 2015. Data is only available for 11:00pm
+        on that day. I suspect that there was some technical glitch that caused this.
+    </p>
+  </div>
+
+  <div class="entry">
+    <img src="images/availability.png" />
+    <p class="caption">
+        Not all weather stations have the same sensors. The above chart shows how many
+        weather stations have data for each metric.
+
+        Every station publishes its battery voltage, which is unfortunately not very interesting.
+        Temperature and humidity data is available for almost all stations, and wind information
+        is available for more than half. Snow depth, precipitation, and 24-hour snowfall are
+        available for less than half of weather stations. These metrics are more common for
+        stations within ski resorts.
+    </p>
+  </div>j
+
+  <div class="entry">
+    <img src="images/temperature-over-time.png" />
+    <p class="caption">
+        Since temperature is the most widely available metric, I decided to start my analysis
+        here. Unfortunately, the data needed a bit of cleaning. Above is a scatterplot
+        of temperature over time.
+
+        There are some obviously incorrect data points
+        with extremely negative values. These data points come from multiple stations
+        and are all either -6999 or -7999. This makes me think that it is some sort
+        of error code, but I could not find any documentation on it.
+    </p>
+  </div>
+
+  <div class="entry">
+    <img src="images/temperature-over-time-no-negative.png" />
+    <p class="caption">
+        After excluding the extremely negative values, we can actually begin to analyze the data.
+        The good news is that there is a clear seasonal trend in temperature as we would expect.
+        The bad news is that there are still quite a few outliers.
+
+        <br/>
+
+        The Washington Pass Base and Crystal Green Valley stations are exceptionally unreliable.
+        I decided to exclude them from the rest of the analysis because I did not feel that
+        the sensors were trustworthy.
+
+        <br/>
+
+        There are other outliers that are more difficult to filter out.
+        -53.5 degrees on Tumwater mountain in January? Possible, but not likely
+        considering that no other station reported subzero temperatures at that time.
+
+    </p>
+  </div>
+
+  <div class="entry">
+    <img src="images/snow-depth.png" />
+    <p class="caption">
+        The chart above shows average snow depth by month for a selection of low-elevation
+        weather stations. From this chart we can clearly see how bad the winter of 2014-2015 was.
+        The base of Crystal barely had any snow the entire season, and other ski areas
+        didn't do much better.
+
+        <br/>
+
+        Paradise, which sits at the base of Mt.Rainier, melted out a month before normal.
+        The masses of snow that accumulate on the flanks of Mt.Rainier gradually melt
+        out in the spring and summer and provide drinking water to millions in the Seattle-Tacoma
+        metropolitan area. Without substantial snowfall during the winter, the glaciers and
+        snowfields of Rainier will subside and drastically alter the entire PNW ecosystem.
+    </p>
+  </div>
+
+  <div class="entry">
+    <img src="images/temperature-over-time-monthly.png" />
+    <p class="caption">
+        This chart shows the average temperature by month for the weather stations above.
+        Note that Washington Pass Base is excluded because it has unreliable temperature data.
+        The Crystal base station does not have data for the first half of September 2015
+        which throws off the average.
+
+        <br/>
+
+        We can clearly see that winter of 2014-2015 was warm, but not much warmer than the winter
+        of 2015-2016. The winter of 2016-2017 has been significantly colder than either of the
+        two preceding winters.
+
+        <br/>
+
+        I was hoping that I could use this data to calculate how much warmer the winter of 2014-2015
+        was compared to average. Computing this is much more difficult than I expected.
+        Since this dataset only goes back to 2014, we can't establish a historical baseline.
+    </p>
+  </div>
+
+  <div class="entry">
+    <img src="images/pressure-precip.png" />
+    <p class="caption">
+        The above image shows barometric pressure and hourly precipitation at Snoqualmie Pass
+        for January 2017. You can clearly see that pressure and precipitation are inversely 
+        correlated.
+    </p>
+  </div>
+
+  <div class="entry">
+    <img src="images/freezing.png" />
+    <p class="caption">
+        This chart shows total precipitation grouped by temperature for Snoqualmie Pass.
+        The Cascades are low elevation coastal mountains, so the difference between rain
+        and snow is often just a couple degrees. There are only three months where the
+        majority of precipitation falls while the temperature is below freezing:
+        December, January, and February. Even during these winter months, most precipitation
+        falls when the temperature is just 31 or 32 degrees. Warming of even a few degrees
+        could tip the balance just enough that almost no snow would fall at low elevation
+        mountain passes.
+    </p>
+  </div>
+
+  <div class="entry">
+    <img src="images/mazama.png" />
+    <p class="caption">
+        When high winds and snow mix, they form unstable wind slabs which can be easily
+        triggered by humans. I wanted to explore the relationship between 24-hour snowfall
+        and wind speed, but unfortunately the data for 24-hour snowfall was completely useless.
+        It was unavailable for most stations, and the stations that did have snowfall data
+        reported negative values most of the time. I decided to use sub-freezing precipitation
+        as a proxy for snowfall. This is an OK proxy, but it doesn't capture the times when
+        the wind is blowing just after heavy snowfall, which can be very dangerous.
+
+        <br/>
+
+        Based on this chart, we can see that high winds usually do not occur during times
+        of precipitation in Mazama.
+    </p>
+  </div>
+
+  <div class="entry">
+    <img src="IMAGE_FILENAME" />
+    <p class="caption">
+    ENTER IMAGE CAPTION HERE.
+    </p>
+  </div>
+
+  <div class="entry">
+    <h3>Summary</h3>
+    <p>
+        The main difficult with this project is that we are dealing with hundreds of
+        autonomous sensors. 
+    </p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
