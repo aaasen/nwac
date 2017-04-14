@@ -105,10 +105,9 @@ ol { margin: 1em; }
 <section>
   <h2>Initial Analysis Questions</h2>
   <ol>
-    <li>QUESTION_1</li>
-    <li>QUESTION_2</li>
-    <li>QUESTION_3</li>
-    <li>...</li>
+    <li>How much warmer was the winter of 2014-2015?</li>
+    <li>When will conditions like those of 2014-2015 become normal?</li>
+    <li>What impacts could warming of a few degress have on mountain weather in the PNW?</li>
   </ol>
 </section>
 
@@ -262,17 +261,61 @@ ol { margin: 1em; }
   </div>
 
   <div class="entry">
-    <img src="IMAGE_FILENAME" />
+    <img src="images/dewpoint.png" />
     <p class="caption">
-    ENTER IMAGE CAPTION HERE.
+        This chart shows the average dew point by month. The dew point is related to relative
+        humidity and temperature; it is "the temperature to which air must be cooled to become
+        saturated with water vapor" (Wikipedia). I used a simple approximation of the dew point
+        for this visualization.
+
+        <br/>
+
+        The main reason that I am interested in dew points is for rock climbing. Friction potential
+        is highest when the dew point is low, which seems to happen in the winter in the PNW.
     </p>
   </div>
 
   <div class="entry">
     <h3>Summary</h3>
     <p>
-        The main difficult with this project is that we are dealing with hundreds of
-        autonomous sensors. 
+        There were three main shortcomings of this dataset:
+    </p>
+
+    <ol>
+        <li>
+            <b>Lack of historical data for comparison.</b>
+            Data was only available starting in October 2014, or even later for some stations.
+            Some weather stations, such as those at Alpental, only operate during the
+            ski season. Both of these factors combine to make historical comparisons difficult.
+        </li>
+        <li>
+            <b>Unreliable data.</b>
+            Many sensors report completely incorrect metrics. These errors are sporadic and
+            call into question the accuracy of the entire dataset. If a weather station
+            publishes garbage data on one day, should we trust it on the next day?
+        </li>
+        <li>
+            <b>No common set of metrics for comparison.</b>
+            Each weather station is equipped with different sensors. The only one that they
+            all have in common is temperature.
+        </li>
+    </ol>
+
+    <p>
+        Because of these issues, I was not able to determine exactly how much
+        warmer the winter of 2014-2015 was compared to a normal year.
+        However, I was able to show that most precipitation at Snoqualmie Pass
+        falls when the temperature is right around freezing, and that warming of even a couple degrees
+        could significantly decrease the amount of low-elevation snow in that area.
+        This could cause ski resorts throughout the PNW to shut down and limit winter-time
+        outdoor recreation.
+        More importantly, having more rain and less snow would increase flooding in the
+        shoulder seasons and droughts in the summer.
+        The effect of global warming on mountain ecosystems is not something that I hear
+        much about, but it is an important issue that could have a widespread impact
+        throughout the world. Hopefully this analysis shows that at least a little bit, or at least gives
+        some insight into the problems that meteorologists and climate scientists
+        face in their work.
     </p>
   </div>
 </section>
